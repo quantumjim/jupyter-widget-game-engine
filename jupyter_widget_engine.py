@@ -1,3 +1,5 @@
+# Copyright IBM Research 2020
+
 from ipywidgets import widgets 
 from ipywidgets import Layout, HBox, VBox
 from IPython.display import display
@@ -35,7 +37,7 @@ class jupyter_widget_engine():
         controller['B'] = widgets.ToggleButton(description='B',button_style='',layout=layout)
         controller['X'] = widgets.ToggleButton(description='X',button_style='',layout=layout)
         controller['Y'] = widgets.ToggleButton(description='Y',button_style='',layout=layout)
-        controller['continue'] = widgets.ToggleButton(description='Next',button_style='',layout=Layout(width=wide, height=height))
+        controller['next'] = widgets.ToggleButton(description='Next',button_style='',layout=Layout(width=wide, height=height))
 
         [b,u,d,l,r,A,B,X,Y,c] = [controller['blank'],
                              controller['up'],
@@ -46,7 +48,7 @@ class jupyter_widget_engine():
                              controller['B'],
                              controller['X'],
                              controller['Y'],
-                             controller['continue']]
+                             controller['next']]
 
 
         interface = []
@@ -81,7 +83,9 @@ class jupyter_widget_engine():
 
     def given_button(self,obs_n):
 
-        self.next_frame(self)
+        for button in self.controller:
+            if self.controller[button].value is True:
+                self.next_frame(self)
 
         for button in self.controller.values():
             button.value = False
