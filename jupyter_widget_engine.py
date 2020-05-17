@@ -6,10 +6,10 @@ from IPython.display import display
 
 class jupyter_widget_engine():
     
-    def __init__(self,start,next_frame,parameters,L=8):
+    def __init__(self,start,next_frame,L=8):
         
         self.next_frame = next_frame
-        self.parameters = parameters
+        self.L = L
         
         width = int(50*8/L)
         wide = str(7*width+24)+'px'
