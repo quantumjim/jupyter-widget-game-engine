@@ -4,7 +4,31 @@ from ipywidgets import widgets
 from ipywidgets import Layout, HBox, VBox
 from IPython.display import display
 
-class jupyter_widget_engine():
+class Pixel():
+    
+    def __init__(self, layout):
+        self._button = widgets.ToggleButton(description='',button_style='',layout=layout,disabled=True)
+        
+    def set_color(self,color):
+        if color=='grey':
+            self._button.button_style = ''
+        elif color=='green':
+            self._button.button_style = 'success'
+        elif color=='blue':
+            self._button.button_style = 'info'
+        elif color=='orange':
+            self._button.button_style = 'warning'
+        elif color=='red':
+            self._button.button_style = 'danger'
+            
+    def set_dimness(self,dim):
+        self._button.value = dim
+        
+    def set_text(self,text):
+        self._button.description = text
+        
+
+class JupyterWidgetEngine():
     
     def __init__(self,start,next_frame,L=8):
         
@@ -23,9 +47,8 @@ class jupyter_widget_engine():
         screen = {}
         for x in range(L):
             for y in range(L):
-                screen[x,y] = widgets.ToggleButton(description='',button_style='',layout=layout,disabled=True)
-        screen['text'] = widgets.ToggleButton(description='',button_style='',layout=Layout(width=wider, height=height),disabled=True)
-
+                screen[x,y] = Pixel(layout)
+        screen['text'] = Pixel(Layout(width=wider, height=height))
 
         controller = {}
         controller['blank'] = widgets.ToggleButton(description='',button_style='',layout=layout)
@@ -52,13 +75,13 @@ class jupyter_widget_engine():
 
 
         interface = []
-        interface.append( widgets.HBox([screen[x,0] for x in range(L)]+[b,u,b,b,b,X,b]) )
-        interface.append( widgets.HBox([screen[x,1] for x in range(L)]+[l,b,r,b,Y,b,A]) )
-        interface.append( widgets.HBox([screen[x,2] for x in range(L)]+[b,d,b,b,b,B,b]) )
-        interface.append( widgets.HBox([screen[x,3] for x in range(L)]+[c]) )
+        interface.append( widgets.HBox([screen[x,0]._button for x in range(L)]+[b,u,b,b,b,X,b]) )
+        interface.append( widgets.HBox([screen[x,1]._button for x in range(L)]+[l,b,r,b,Y,b,A]) )
+        interface.append( widgets.HBox([screen[x,2]._button for x in range(L)]+[b,d,b,b,b,B,b]) )
+        interface.append( widgets.HBox([screen[x,3]._button for x in range(L)]+[c]) )
         for y in range(4,L):
-            interface.append( widgets.HBox([screen[x,y] for x in range(L)]) )
-        interface.append( screen['text'] )
+            interface.append( widgets.HBox([screen[x,y]._button for x in range(L)]) )
+        interface.append( screen['text']._button )
             
         self.screen = screen
         self.controller = controller
