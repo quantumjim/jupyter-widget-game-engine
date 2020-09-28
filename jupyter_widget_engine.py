@@ -10,7 +10,7 @@ class Pixel():
         self._button = widgets.ToggleButton(description='',button_style='',layout=layout,disabled=True)
         
     def set_color(self,color):
-        if color=='grey':
+        if color in ['grey','gray']:
             self._button.button_style = ''
         elif color=='green':
             self._button.button_style = 'success'
@@ -21,8 +21,8 @@ class Pixel():
         elif color=='red':
             self._button.button_style = 'danger'
             
-    def set_dimness(self,dim):
-        self._button.value = dim
+    def set_brightness(self,bright):
+        self._button.value = not bright
         
     def set_text(self,text):
         self._button.description = text
